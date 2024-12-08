@@ -1,7 +1,8 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 function SlotMachine() {
+    const gameVersion = 2;
     const [spins, setSpins] = useState(0);
     const [balance, setBalance] = useState(100);
     const [averageSpinPrice, setAverageSpinPrice] = useState(0);
@@ -13,30 +14,30 @@ function SlotMachine() {
     const [spinPrice, setSpinPrice] = useState(10);
     const [resultMessage, setResultMessage] = useState('');
     const images = [
-        'images/v1anchor.png',
-        'images/v1barrel.png',
-        'images/v1skull.png',
-        'images/v1sword.png',
-        'images/v1bomb.png',
-        'images/v1chest.png'
+        'images/cherry.jpg',
+        'images/lemon.jpg',
+        'images/watermelon.jpg',
+        'images/bell.jpg',
+        'images/orange.jpg',
+        'images/plum.jpg'
     ];
 
     const payouts = {
-        'images/v1anchor.png' : 2,
-        'images/v1barrel.png' : 8,
-        'images/v1skull.png' : 15,
-        'images/v1sword.png' : 50,
-        'images/v1bomb.png' : 100,
-        'images/v1chest.png' : 200
+        'images/cherry.jpg': 2,
+        'images/lemon.jpg': 8,
+        'images/watermelon.jpg': 15,
+        'images/bell.jpg': 50,
+        'images/orange.jpg': 100,
+        'images/plum.jpg': 200
     };
 
     const probabilities = {
-        'images/v1anchor.png': 0.35,
-        'images/v1barrel.png': 0.25,
-        'images/v1skull.png': 0.2,
-        'images/v1sword.png': 0.10,
-        'images/v1bomb.png': 0.07,
-        'images/v1chest.png': 0.03
+        'images/cherry.jpg': 0.35,
+        'images/lemon.jpg': 0.25,
+        'images/watermelon.jpg': 0.2,
+        'images/bell.jpg': 0.10,
+        'images/orange.jpg': 0.07,
+        'images/plum.jpg': 0.03
     };
 
     const getRandomSymbol = () => {
@@ -75,37 +76,7 @@ function SlotMachine() {
             Array.from({ length: 3 }, () => getRandomSymbol())
         );
 
-        const animateSlot = (colIndex) => {
-            return new Promise((resolve) => {
-                const interval = setInterval(() => {
-                    setSlots((prevSlots) => {
-                        const updatedSlots = prevSlots.map((row, rowIndex) => {
-                            const newRow = [...row];
-                            newRow[colIndex] = images[Math.floor(Math.random() * images.length)];
-                            return newRow;
-                        });
-                        return updatedSlots;
-                    });
-                }, 50);
-
-                setTimeout(() => {
-                    clearInterval(interval);
-                    setSlots((prevSlots) => {
-                        const updatedSlots = prevSlots.map((row, rowIndex) => {
-                            const newRow = [...row];
-                            newRow[colIndex] = newSlots[rowIndex][colIndex];
-                            return newRow;
-                        });
-                        return updatedSlots;
-                    });
-                    resolve();
-                }, 300);
-            });
-        };
-
-        await animateSlot(0);
-        await animateSlot(1);
-        await animateSlot(2);
+        setSlots(newSlots);
 
         const winAmount = checkWin(newSlots);
         newBalance += winAmount;
@@ -128,7 +99,7 @@ function SlotMachine() {
             });
             if (response.status === 200) {
                 alert('Game data saved to database');
-                window.location.href = `https://docs.google.com/forms/d/e/1FAIpQLSeGlygjMbiWggnMls8AJN-mu5XlIGd9H60pL6btILVxp05apA/viewform?usp=pp_url&entry.139623598=${spins}&entry.88120807=${balance}&entry.2048267293=${averageSpinPrice}&entry.103747839=1`;
+                window.location.href = `https://docs.google.com/forms/d/e/1FAIpQLSeGlygjMbiWggnMls8AJN-mu5XlIGd9H60pL6btILVxp05apA/viewform?usp=pp_url&entry.139623598=${spins}&entry.88120807=${balance}&entry.2048267293=${averageSpinPrice}&entry.103747839=2`;
             } else {
                 console.error('Error saving game data:', response.status, response.statusText);
                 alert('Failed to save game data');
@@ -140,9 +111,7 @@ function SlotMachine() {
     };
 
     return (
-        <div className="slot-machine-page flex flex-col items-center bg-cover bg-center"
-             style={{backgroundImage: "url('images/background.png')"}}>
-
+        <div className="slot-machine-page flex flex-col items-center">
             {/* Title */}
             <div className="p-20 absolute flex items-center text-white">
                 {resultMessage && <p className="text-xl font-bold">{resultMessage}</p>}
