@@ -6,9 +6,9 @@ function SlotMachine() {
     const [balance, setBalance] = useState(100);
     const [averageSpinPrice, setAverageSpinPrice] = useState(0);
     const [slots, setSlots] = useState([
-        ['images/cherry.jpg', 'images/lemon.jpg', 'images/watermelon.jpg'],
-        ['images/cherry.jpg', 'images/lemon.jpg', 'images/watermelon.jpg'],
-        ['images/cherry.jpg', 'images/lemon.jpg', 'images/watermelon.jpg']
+        ['images/v1sword.png', 'images/v1chest.png', 'images/v1bomb.png'],
+        ['images/v1sword.png', 'images/v1chest.png', 'images/v1bomb.png'],
+        ['images/v1sword.png', 'images/v1chest.png', 'images/v1bomb.png']
     ]);
     const [spinPrice, setSpinPrice] = useState(10);
     const [resultMessage, setResultMessage] = useState('');
@@ -140,24 +140,30 @@ function SlotMachine() {
     };
 
     return (
-        <div className="slot-machine-page flex flex-col items-center bg-cover bg-center"
-             style={{backgroundImage: "url('images/background.png')"}}>
-
+        <div className="slot-machine-page flex flex-col items-center bg-cover bg-center h-screen"
+             style={{backgroundImage: "url('/public/images/background.jpg')"}}>
             {/* Title */}
-            <div className="p-20 absolute flex items-center text-white">
+            <div className="absolute flex items-center text-white">
                 {resultMessage && <p className="text-xl font-bold">{resultMessage}</p>}
             </div>
-            <h1 className="text-3xl font-bold mb-4 p-40"></h1>
+            <h1 className="text-3xl font-bold"></h1>
             <div className="flex flex-col items-center">
                 {/* Slot design */}
-                <div className="bg-black/35 flex flex-wrap justify-center items-center w-80">
-                    {slots.flat().map((slot, index) => (
-                        <img key={index} src={slot} alt={`slot-${index}`}
-                             className="w-1/3 m-0 p-0 object-cover"/>
-                    ))}
+                <div
+                    className="flex justify-center items-center w-2/5 relative bg-cover bg-[url('images/v1frame.png')] v1frame">
+                    <div className="flex flex-wrap justify-center items-center bg-black/70 m-20 backdrop-blur-sm">
+                        {slots.flat().map((slot, index) => (
+                            <img
+                                key={index}
+                                src={slot}
+                                alt={`slot-${index}`}
+                                className="w-1/3"
+                            />
+                        ))}
+                    </div>
                 </div>
                 {/* Balance, Spin Price, and Spin Button */}
-                <div className="flex justify-center items-center w-full mt-4 bg-black/35 rounded-full">
+                <div className="flex justify-center items-center mt-4 bg-black/35 rounded-full w-1/4">
                     <div className="flex-1 text-center">
                         <p className="mb-2 font-bold">Balance</p>
                         <p>${balance}</p>
@@ -193,6 +199,7 @@ function SlotMachine() {
                     </div>
                 </div>
                 {/* Spins and Average Spin Price */}
+                {/*
                 <div className="flex justify-center items-center w-full mt-4">
                     <div className="flex-1 text-center">
                         <p className="mb-2">Spins: {spins}</p>
@@ -201,15 +208,16 @@ function SlotMachine() {
                         <p className="mb-2">Average Spin Price: ${averageSpinPrice.toFixed(2)}</p>
                     </div>
                 </div>
+                */}
             </div>
             {/* exit with winnings button */}
-            <div className="relative w-full mt-4">
+            <div className="relative w-full">
                 <button onClick={handleExitWithWinnings}
-                        className="absolute right-0 bg-green-500 text-white p-4 m-4 rounded">Exit with Winnings
+                        className="absolute right-10 bottom-1 bg-green-500 text-white p-4 rounded">Exit with Winnings
                 </button>
             </div>
             {/* payouts table */}
-            <div className="mt-4">
+            {/*<div className="mt-4">
                 <h2 className="text-xl font-bold mb-2">Payouts</h2>
                 <ul>
                     {Object.entries(payouts).map(([fruit, payout]) => (
@@ -217,6 +225,7 @@ function SlotMachine() {
                     ))}
                 </ul>
             </div>
+            */}
         </div>
     );
 }
